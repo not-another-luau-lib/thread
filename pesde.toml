@@ -1,4 +1,4 @@
-name = "not_another_luau_lib/thread"
+name = "nall/thread"
 version = "0.1.0"
 description = "Runs callbacks on a recycled thread instead of creating a new one per call."
 authors = []
@@ -18,5 +18,5 @@ default = "https://github.com/pesde-pkg/index"
 default = "https://github.com/UpliftGames/wally-index"
 
 [dependencies]
-# Signal = { name = "not_another_luau_lib/signal", version = "^0.1.0" }
+# Signal = { name = "nall/signal", version = "^0.1.0" }
 # Promise = { wally = "evaera/promise", version = "^4.0.0" }

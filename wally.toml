@@ -10,4 +10,4 @@ realm = "shared"
 include = ["src", "default.project.json", "wally.toml", "README.md", "LICENSE"]
 
 [dependencies]
-# Signal = "not-another-luau-lib/signal@^0.1.0"
+# Signal = "nall/signal@^0.1.0"
