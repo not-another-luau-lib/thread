@@ -39,18 +39,21 @@ end
 
 --[=[
 	@within Thread
-	@function spawn
-	@param callback (T...) -> () -- Function to run
-	@param ... T... -- Arguments passed to `callback`
-	@return thread -- The thread `callback` ran on
+	@type Spawn <T...>(callback: (T...) -> (), T...) -> thread
 
-	Runs `callback(...)` immediately on the idle thread, creating one if none is free.
+	The module itself: requiring `Thread` returns this function directly, there is
+	no `Thread.spawn`.
+
+	Runs `callback(...)` immediately on the idle thread, creating one if none is
+	free, and returns the thread `callback` ran on.
 
 	If `callback` yields, the thread it ran on stays busy until it finishes, and
 	the next call gets a fresh thread. Once a callback returns without yielding, its
 	thread becomes the idle one again.
 
 	```lua
+	local thread = require(path.to.Thread)
+
 	thread(function(name)
 		task.wait(1)
 		print(`hello {name}`)
