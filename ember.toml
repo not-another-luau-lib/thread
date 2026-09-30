@@ -1,0 +1,27 @@
+[package]
+name = "not-another-luau-lib/thread"
+version = "0.1.0"
+description = "Runs callbacks on a recycled thread instead of creating a new one per call."
+authors = []
+repository = "not-another-luau-lib/thread"
+license = "MIT"
+
+[target]
+environment = "shared"
+main = "src/init.luau"
+includes = ["src", "default.project.json", "README.md", "LICENSE"]
+
+[indices]
+wally = "https://github.com/UpliftGames/wally-index"
+pesde = "https://github.com/pesde-pkg/index"
+
+[dependencies]
+# Signal = { name = "not-another-luau-lib/signal", version = "^0.1.0" }
+# Promise = { name = "evaera/promise", version = "^4.0.0", index = "wally" }
+
+[tools]
+lest = "lest-luau/lest@0.6.0"
+rojo = "rojo-rbx/rojo@7.7.0"
+
+[scripts]
+test = "lest"

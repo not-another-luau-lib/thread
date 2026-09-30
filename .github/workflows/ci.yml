@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install lest (version pinned in ember.toml)
+        run: |
+          version=$(sed -n 's|^lest = "lest-luau/lest@\(.*\)"|\1|p' ember.toml)
+          curl -fsSL "https://github.com/lest-luau/lest/releases/download/v$version/lest-$version-linux-x86_64.zip" -o "$RUNNER_TEMP/lest.zip"
+          unzip -q "$RUNNER_TEMP/lest.zip" -d "$RUNNER_TEMP/lest"
+          chmod +x "$RUNNER_TEMP/lest/lest"
+          echo "$RUNNER_TEMP/lest" >> "$GITHUB_PATH"
+
+      - run: lest
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npx --yes @metricsrb/fumablox@1 check
+
+  update-site:
+    needs: [test, docs]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rebuild the documentation site
+        env:
+          GH_TOKEN: ${{ secrets.DOCS_TOKEN }}
+          SITE: ${{ github.repository_owner }}/${{ github.repository_owner }}.github.io
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::DOCS_TOKEN is not set, the documentation site was not rebuilt"
+            exit 0
+          fi
+          gh api "repos/$SITE/dispatches" -f event_type=library-updated

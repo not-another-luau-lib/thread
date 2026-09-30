@@ -1,0 +1,2 @@
+[suites.unit]
+include = ["tests/**/*.spec.luau"]
