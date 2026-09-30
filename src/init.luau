@@ -4,11 +4,11 @@
 --[=[
 	@class Thread
 	
-	Runs callbacks on a recycled thread instead of creating a new one per call.
+	runs callbacks on a recycled thread instead of creating a new one per call
 
-	`task.spawn(callback)` allocates a coroutine every time. This module keeps one
+	`task.spawn(callback)` allocates a coroutine every time. this module keeps one
 	idle thread around and hands callbacks to it; a new thread is only created when
-	the idle one is busy because a previous callback yielded.
+	the idle one is busy because a previous callback yielded
 
 	```lua
 	local thread = require(path.to.Thread)
@@ -41,15 +41,14 @@ end
 	@within Thread
 	@type Spawn <T...>(callback: (T...) -> (), T...) -> thread
 
-	The module itself: requiring `Thread` returns this function directly, there is
-	no `Thread.spawn`.
+	runs `callback(...)` immediately on the idle thread, creating one if none is
+	free, and returns the thread `callback` ran on
 
-	Runs `callback(...)` immediately on the idle thread, creating one if none is
-	free, and returns the thread `callback` ran on.
-
-	If `callback` yields, the thread it ran on stays busy until it finishes, and
-	the next call gets a fresh thread. Once a callback returns without yielding, its
-	thread becomes the idle one again.
+	:::info
+	if `callback` yields, the thread it ran on stays busy until it finishes, and
+	the next call gets a fresh thread. once a callback returns without yielding, its
+	thread becomes the idle one again
+	:::
 
 	```lua
 	local thread = require(path.to.Thread)
