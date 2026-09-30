@@ -3,7 +3,7 @@
 
 --[=[
 	@class Thread
-
+	
 	Runs callbacks on a recycled thread instead of creating a new one per call.
 
 	`task.spawn(callback)` allocates a coroutine every time. This module keeps one
